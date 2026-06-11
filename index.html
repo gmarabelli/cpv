@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Presentazione CPV</title>
+	<title>Document</title>
 	<style>
 		html{
 			scroll-behavior: smooth;
@@ -226,7 +226,7 @@
 			flex-direction: row;
 			align-items: center;
 			align-content: center;
-			justify-content: space-between;
+			justify-content: space-evenly;
 		}
 		.scroll{
 			overflow-x: scroll;
@@ -242,12 +242,34 @@
 		}
 		.scroll img,
 		.img{
-			height: 50vh;
-			width: 20vw;
+			height: 40vh;
 		}
 		.scroll .full{
 			position: static;
 			padding: 0 5rem;
+		}
+		#logo{
+			text-align:center;
+			img{
+				width: 22rem;
+				position: relative;
+				bottom: 4rem;
+			}
+			h1{
+				position: relative;
+				bottom: 18rem;
+			}
+			h2{
+				font-size: 1.5rem;
+				position: relative;
+				bottom: 12rem;
+			}
+		}
+		img.circuit{
+			width: 70vw;
+		}
+		th{
+			font-size: 2rem;
 		}
 	</style>
 </head>
@@ -255,7 +277,7 @@
 	<div id="start-div" class="full">
 		<a id="start" href="#home" class="e" data-label="HOME">&gt</a>
 	</div>
-	<div id="home" class="presentation" data-page="0" data-pagemax="6">
+	<div id="home" class="presentation" data-page="0" data-pagemax="3">
 		<div class="header">
 			<img src="compvter-logo.png">
 			<img src="ctrlalt-logo.png">
@@ -269,19 +291,27 @@
 		<div class="footer">
 			<img src="qrcode.png">
 		</div>
-		<div class="center active" data-pageend="4">
-			<h1>Clicca qui, anche più volte</h1>
+		<div class="center active" data-page="0">
+			<div id="logo">
+				<img src="processor-green.svg">
+				<h1>CPV</h1>
+				<h2>L'idea ... che si accende!</h2>
+			</div>
 		</div>
-		<div id="gates-link" class="full noheader inactive" data-page="3">
+		<div id="gates-link" class="full noheader inactive" data-page="1">
+			<h1 style="text-align: center"><br>Ma come funzionano??</h1>
 			<a href="#gates" class="s">&gt</a>
 		</div>
-		<div id="circuit-link" class="full noheader inactive" data-page="5">
+		<div id="circuit-link" class="full noheader inactive" data-page="2">
 			<a href="#presentation-register" class="e" data-label="REGISTER">&gt</a>
 			<a href="#presentation-resettableregister" class="ne" data-label="RESETTABLE REGISTER">&gt</a>
 			<a href="#presentation-multiplexer" class="nw" data-label="MULTIPLEXER">&gt</a>
 			<a href="#presentation-comparator" class="w" data-label="COMPARATOR">&gt</a>
 			<a href="#presentation-adder" class="sw" data-label="ADDER">&gt</a>
 			<a href="#presentation-logic" class="se" data-label="LOGIC">&gt</a>
+		</div>
+		<div class="page inactive center" data-page="3">
+			<iframe src="https://circuitverse.org/simulator/embed/cpv?theme=default&display_title=false&clock_time=true&fullscreen=true&zoom_in_out=true" style="border-width:; border-style: none; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="700" width="1400" allowFullScreen></iframe>
 		</div>
 	</div>
 	<div id="gates" class="presentation s">
@@ -298,10 +328,10 @@
 		<div class="footer">
 			<img src="qrcode.png">
 		</div>
-		<div class="full noheader scroll" data-scroll="0" data-scrollmax="3">
+		<div id="logic" class="full noheader scroll" data-scroll="0" data-scrollmax="3">
 			<div class="noheader inner-scroll">
 				<div class="full noheader flex">
-					<div class="img">immagine porta NOT</div>
+					<img src="not.png">
 					<table>
 						<tbody>
 							<tr>
@@ -321,7 +351,7 @@
 				</div>
 				<div class="full noheader flex">
 					<div class="flex">
-						<div class="img">immagine porta NAND</div>
+					<img src="nand.png">
 						<table>
 							<tbody>
 								<tr>
@@ -343,7 +373,7 @@
 						</table>
 					</div>
 					<div class="flex">
-						<div class="img">immagine porta NOR</div>
+					<img src="nor.png">
 						<table>
 							<tbody>
 								<tr>
@@ -366,7 +396,7 @@
 					</div>
 				</div>
 				<div class="full noheader flex">
-					<div class="img">immagine porta XOR</div>
+					<img src="xor.png">
 					<table>
 						<tbody>
 							<tr>
@@ -388,7 +418,7 @@
 					</table>
 				</div>
 				<div class="full noheader flex">
-					<div class="img">immagine porta Saviotti</div>
+					<img src="saviotti.png">
 					<table>
 						<tbody>
 							<tr>
@@ -413,7 +443,7 @@
 		</div>
 	</div>
 	<div id="circuits" class="hidden">
-		<div id="presentation-register" class="presentation e" data-page="0" data-pagemax="2">
+		<div id="presentation-register" class="presentation e" data-page="0" data-pagemax="1">
 			<div class="header">
 				<img src="compvter-logo.png">
 				<img src="ctrlalt-logo.png">
@@ -427,20 +457,14 @@
 			<div class="footer">
 				<img src="qrcode.png">
 			</div>
-			<div class="full noheader">
-				<a href="#home" class="w">&gt</a>
-			</div>
-			<div class="page active center" data-page="0">
-				TITOLO
-			</div>
-			<div class="page inactive center" data-page="1">
+			<div class="page inactive center" data-page="0">
 				<iframe src="https://circuitverse.org/simulator/embed/cpv?theme=default&display_title=false&clock_time=true&fullscreen=true&zoom_in_out=true" style="border-width:; border-style: none; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="700" width="1400" allowFullScreen></iframe>
 			</div>
-			<div class="page inactive center" data-page="2">
-				IMMAGINE
+			<div class="page inactive center" data-page="1">
+				<img class="circuit" src="register.png">
 			</div>
 		</div>
-		<div id="presentation-resettableregister" class="presentation ne" data-page="0" data-pagemax="2">
+		<div id="presentation-resettableregister" class="presentation ne" data-page="0" data-pagemax="1">
 			<div class="header">
 				<img src="compvter-logo.png">
 				<img src="ctrlalt-logo.png">
@@ -454,20 +478,14 @@
 			<div class="footer">
 				<img src="qrcode.png">
 			</div>
-			<div class="full noheader">
-				<a href="#home" class="sw">&gt</a>
-			</div>
-			<div class="page active center" data-page="0">
-				TITOLO
-			</div>
-			<div class="page inactive center" data-page="1">
+			<div class="page inactive center" data-page="0">
 				<iframe src="https://circuitverse.org/simulator/embed/cpv?theme=default&display_title=false&clock_time=true&fullscreen=true&zoom_in_out=true" style="border-width:; border-style: none; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="700" width="1400" allowFullScreen></iframe>
 			</div>
-			<div class="page inactive center" data-page="2">
-				IMMAGINE
+			<div class="page inactive center" data-page="1">
+				<img class="circuit" src="resettable-register.png">
 			</div>
 		</div>
-		<div id="presentation-multiplexer" class="presentation nw" data-page="0" data-pagemax="2">
+		<div id="presentation-multiplexer" class="presentation nw" data-page="0" data-pagemax="1">
 			<div class="header">
 				<img src="compvter-logo.png">
 				<img src="ctrlalt-logo.png">
@@ -481,20 +499,14 @@
 			<div class="footer">
 				<img src="qrcode.png">
 			</div>
-			<div class="full noheader">
-				<a href="#home" class="se">&gt</a>
-			</div>
-			<div class="page active center" data-page="0">
-				TITOLO
-			</div>
-			<div class="page inactive center" data-page="1">
+			<div class="page inactive center" data-page="0">
 				<iframe src="https://circuitverse.org/simulator/embed/cpv?theme=default&display_title=false&clock_time=true&fullscreen=true&zoom_in_out=true" style="border-width:; border-style: none; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="700" width="1400" allowFullScreen></iframe>
 			</div>
-			<div class="page inactive center" data-page="2">
-				IMMAGINE
+			<div class="page inactive center" data-page="1">
+				<img class="circuit" src="multiplexer.png">
 			</div>
 		</div>
-		<div id="presentation-comparator" class="presentation w" data-page="0" data-pagemax="2">
+		<div id="presentation-comparator" class="presentation w" data-page="0" data-pagemax="1">
 			<div class="header">
 				<img src="compvter-logo.png">
 				<img src="ctrlalt-logo.png">
@@ -508,20 +520,14 @@
 			<div class="footer">
 				<img src="qrcode.png">
 			</div>
-			<div class="page active center" data-page="0">
-				TITOLO
-			</div>
-			<div class="page inactive center" data-page="1">
+			<div class="page inactive center" data-page="0">
 				<iframe src="https://circuitverse.org/simulator/embed/cpv?theme=default&display_title=false&clock_time=true&fullscreen=true&zoom_in_out=true" style="border-width:; border-style: none; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="700" width="1400" allowFullScreen></iframe>
 			</div>
-			<div class="page inactive center" data-page="2">
-				IMMAGINE
-			</div>
-			<div class="full noheader">
-				<a href="#home" class="e">&gt</a>
+			<div class="page inactive center" data-page="1">
+				<img class="circuit" src="comparator.png">
 			</div>
 		</div>
-		<div id="presentation-adder" class="presentation sw" data-page="0" data-pagemax="2">
+		<div id="presentation-adder" class="presentation sw" data-page="0" data-pagemax="1">
 			<div class="header">
 				<img src="compvter-logo.png">
 				<img src="ctrlalt-logo.png">
@@ -535,20 +541,14 @@
 			<div class="footer">
 				<img src="qrcode.png">
 			</div>
-			<div class="page active center" data-page="0">
-				TITOLO
-			</div>
-			<div class="page inactive center" data-page="1">
+			<div class="page inactive center" data-page="0">
 				<iframe src="https://circuitverse.org/simulator/embed/cpv?theme=default&display_title=false&clock_time=true&fullscreen=true&zoom_in_out=true" style="border-width:; border-style: none; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="700" width="1400" allowFullScreen></iframe>
 			</div>
-			<div class="page inactive center" data-page="2">
-				IMMAGINE
-			</div>
-			<div class="full noheader">
-				<a href="#home" class="ne">&gt</a>
+			<div class="page inactive center" data-page="1">
+				<img class="circuit" src="adder.png">
 			</div>
 		</div>
-		<div id="presentation-logic" class="presentation se" data-page="0" data-pagemax="2">
+		<div id="presentation-logic" class="presentation se" data-page="0" data-pagemax="1">
 			<div class="header">
 				<img src="compvter-logo.png">
 				<img src="ctrlalt-logo.png">
@@ -562,17 +562,11 @@
 			<div class="footer">
 				<img src="qrcode.png">
 			</div>
-			<div class="page active center" data-page="0">
-				TITOLO
-			</div>
-			<div class="page inactive center" data-page="1">
+			<div class="page inactive center" data-page="0">
 				<iframe src="https://circuitverse.org/simulator/embed/cpv?theme=default&display_title=false&clock_time=true&fullscreen=true&zoom_in_out=true" style="border-width:; border-style: none; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="700" width="1400" allowFullScreen></iframe>
 			</div>
-			<div class="page inactive center" data-page="2">
-				IMMAGINE
-			</div>
-			<div class="full noheader">
-				<a href="#home" class="nw">&gt</a>
+			<div class="page inactive center" data-page="1">
+				<img class="circuit" src="logic.png">
 			</div>
 		</div>
 	</div>
@@ -631,6 +625,21 @@
 							element.classList.remove("inactive");
 							element.classList.add("active");
 						}
+					}else{
+						presentation.dataset["page"] = 0;
+						for(const element of presentation.querySelectorAll(`[data-page]`)){
+							element.classList.add("inactive");
+							element.classList.remove("active");
+						}
+						for(const element of presentation.querySelectorAll(`[data-pagestart="0"]`)){
+							element.classList.remove("inactive");
+							element.classList.add("active");
+						}
+						for(const element of presentation.querySelectorAll(`[data-page="0"]`)){
+							element.classList.remove("inactive");
+							element.classList.add("active");
+						}
+						location = "#home";
 					}
 				}
 			);
@@ -655,6 +664,8 @@
 						scroll.dataset["scroll"] = scrollNum;
 					}else{
 						location = "#home";
+						scroll.scroll(0, 0);
+						scroll.dataset["scroll"] = 0;
 					}
 				}
 			);
@@ -666,7 +677,7 @@
 				const home = event.currentTarget;
 				let pageNum = home.dataset["page"];
 
-				if(pageNum == 4){
+				if(pageNum == 2){
 					circuits.classList.remove("hidden");
 					gates.classList.add("hidden");
 				}
