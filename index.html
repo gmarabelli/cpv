@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		html{
+			scroll-behavior: smooth;
+		}
+		*{
+			margin: 0;
+			box-sizing: border-box;
+			scrollbar-width: none;
+			font: 3rem monospace;
+		}
+		body{
+			width: calc(300vw + 200vh);
+			height: 400vh;
+			position: relative;
+			background: repeat url("processor.svg");
+		}
+		.presentation,
+		.full{
+			--width: calc(100vw);
+			--height: calc(100vh);
+			width: var(--width);
+			height: var(--height);
+			position: absolute;
+		}
+		.hidden{
+			display: none;
+		}
+		.full{
+			bottom: 0;
+			left: 0;
+			--half: calc(50vh - 1.5rem);
+		}
+		.noheader{
+			height: calc(100vh - 4rem);
+			--half: calc(50vh - 3.5rem);
+		}
+		.presentation.nw{
+			top: 0;
+			left: calc(50vw + 50vh);
+		}
+		.presentation.ne{
+			top: 0;
+			right: calc(50vw + 50vh);
+		}
+		.presentation.w{
+			top: 150vh;
+			left: 0;
+		}
+		.presentation.e{
+			top: 150vh;
+			right: 0;
+		}
+		.presentation.sw{
+			bottom: 0;
+			left: calc(50vw + 50vh);
+		}
+		.presentation.se{
+			bottom: 0;
+			right: calc(50vw + 50vh);
+		}
+		.presentation.s{
+			bottom: 0;
+			right: calc(100vh + 100vw);
+		}
+		#home{
+			top: 150vh;
+			left: calc(100vh + 100vw);
+		}
+		[data-page] [data-page],
+		[data-pagestart],
+		[data-pageend]{
+			opacity: 0;
+			transition: 0.5s;
+		}
+		[data-page] [data-page].active,
+		[data-pagestart].active,
+		[data-pageend].active{
+			opacity: 100%;
+		}
+		[data-page] [data-page].inactive,
+		[data-pagestart].inactive,
+		[data-pageend].inactive{
+			display: none;
+		}
+		.header{
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100vw;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0.5rem;
+		}
+		.header img{
+			max-height: 3rem;
+		}
+		.header > div{
+			display: flex;
+			align-items: center;
+		}
+		.header div div{
+			font-size: 0.7rem;
+			font-weight: bold;
+			text-align: right;
+		}
+		.footer{
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			padding: 0.5rem;
+		}
+		.footer img{
+			max-height: 4rem;
+		}
+		.full a{
+			position: absolute;
+			display: block;
+			width: 3rem;
+			height: 3rem;
+			border: 0.2rem solid #888;
+			border-radius: 10rem;
+			font-size: 2.3rem;
+			text-decoration: none;
+			text-align: center;
+			font-family: sans-serif;
+			opacity: 0.5;
+			transition: 0.5s;
+			&:hover{
+				opacity: 100%;
+			}
+		}
+		.full [data-label]::after{
+			content: attr(data-label);
+			position: absolute;
+			font-size: 1rem;
+			right: 0;
+		}
+		.full .e{
+			top: var(--half);
+			right: 0.5rem;
+			&::after{
+				bottom: -1.5rem;
+			}
+		}
+		.full .ne{
+			top: 0.5rem;
+			right: calc(50vw - 40vh);
+			transform: rotate(-60deg);
+			&::after{
+				bottom: -2rem;
+				transform: rotate(60deg);
+			}
+		}
+		.full .nw{
+			top: 0.5rem;
+			left: calc(50vw - 40vh);
+			transform: rotate(-120deg);
+			&::after{
+				top: -0.5rem;
+				transform: rotate(120deg);
+			}
+		}
+		.full .w{
+			top: var(--half);
+			left: 0.5rem;
+			transform: rotate(180deg);
+			&::after{
+				top: -1.5rem;
+				transform: rotate(180deg);
+			}
+		}
+		.full .sw{
+			bottom: 0.5rem;
+			left: calc(50vw - 40vh);
+			transform: rotate(120deg);
+			&::after{
+				bottom: -0.8rem;
+				right: 1.5rem;
+				transform: rotate(-120deg);
+			}
+		}
+		.full .se{
+			bottom: 0.5rem;
+			right: calc(50vw - 40vh);
+			transform: rotate(60deg);
+			&::after{
+				top: -1rem;
+				right: 1.5rem;
+				transform: rotate(-60deg);
+			}
+		}
+		.full .s{
+			bottom: 0;
+			margin: 0.5rem calc(50vw - 1.5rem);
+			transform: rotate(90deg);
+		}
+		.full .n{
+			top: 0;
+			margin: 0.5rem calc(50vw - 1.5rem);
+			transform: rotate(-90deg);
+		}
+		#start-div{
+			top: 0;
+			left: 0;
+		}
+		#start{
+			top: calc(50vh - 1.5rem);
+			left: calc(50vw - 1.5rem);
+		}
+		.center{
+			position: absolute;
+			top: 4rem;
+			left: 5rem;
+			width: calc(100vw - 10rem);
+		}
+		.flex{
+			display: flex;
+			flex-wrap: wrap;
+			flex-direction: row;
+			align-items: center;
+			align-content: center;
+			justify-content: space-between;
+		}
+		.scroll{
+			overflow-x: scroll;
+			overflow-y: clip;
+			scroll-behavior: smooth;
+		}
+		.inner-scroll{
+			width: 400vw;
+			height: calc(100vh - 4rem);
+			margin-left: 0;
+			display: flex;
+			flex-direction: row;
+		}
+		.scroll img,
+		.img{
+			height: 50vh;
+			width: 20vw;
+		}
+		.scroll .full{
+			position: static;
+			padding: 0 5rem;
+		}
+	</style>
+</head>
+<body>
+	<div id="start-div" class="full">
+		<a id="start" href="#home" class="e" data-label="HOME">&gt</a>
+	</div>
+	<div id="home" class="presentation" data-page="0" data-pagemax="6">
+		<div class="header">
+			<img src="compvter-logo.png">
+			<img src="ctrlalt-logo.png">
+			<div>
+				<div>
+					Istituto<br>G.Cardano<br>Pavia
+				</div>
+				<img src="cardano-logo.png">
+			</div>
+		</div>
+		<div class="footer">
+			<img src="qrcode.png">
+		</div>
+		<div class="center active" data-pageend="4">
+			<h1>Clicca qui, anche più volte</h1>
+		</div>
+		<div id="gates-link" class="full noheader inactive" data-page="3">
+			<a href="#gates" class="s">&gt</a>
+		</div>
+		<div id="circuit-link" class="full noheader inactive" data-page="5">
+			<a href="#presentation-register" class="e" data-label="REGISTER">&gt</a>
+			<a href="#presentation-resettableregister" class="ne" data-label="RESETTABLE REGISTER">&gt</a>
+			<a href="#presentation-multiplexer" class="nw" data-label="MULTIPLEXER">&gt</a>
+			<a href="#presentation-comparator" class="w" data-label="COMPARATOR">&gt</a>
+			<a href="#presentation-adder" class="sw" data-label="ADDER">&gt</a>
+			<a href="#presentation-logic" class="se" data-label="LOGIC">&gt</a>
+		</div>
+	</div>
+	<div id="gates" class="presentation s">
+		<div class="header">
+			<img src="compvter-logo.png">
+			<img src="ctrlalt-logo.png">
+			<div>
+				<div>
+					Istituto<br>G.Cardano<br>Pavia
+				</div>
+				<img src="cardano-logo.png">
+			</div>
+		</div>
+		<div class="footer">
+			<img src="qrcode.png">
+		</div>
+		<div class="full noheader scroll" data-scroll="0" data-scrollmax="3">
+			<div class="noheader inner-scroll">
+				<div class="full noheader flex">
+					<div class="img">immagine porta NOT</div>
+					<table>
+						<tbody>
+							<tr>
+								<th>A</th>
+								<th></th>
+							</tr>
+							<tr>
+								<th>0</th>
+								<th>1</th>
+							</tr>
+							<tr>
+								<th>1</th>
+								<th>0</th>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="full noheader flex">
+					<div class="flex">
+						<div class="img">immagine porta NAND</div>
+						<table>
+							<tbody>
+								<tr>
+									<th>A\B</th>
+									<th>0</th>
+									<th>1</th>
+								</tr>
+								<tr>
+									<th>0</th>
+									<th>0</th>
+									<th>1</th>
+								</tr>
+								<tr>
+									<th>1</th>
+									<th>1</th>
+									<th>1</th>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="flex">
+						<div class="img">immagine porta NOR</div>
+						<table>
+							<tbody>
+								<tr>
+									<th>A\B</th>
+									<th>0</th>
+									<th>1</th>
+								</tr>
+								<tr>
+									<th>0</th>
+									<th>0</th>
+									<th>0</th>
+								</tr>
+								<tr>
+									<th>1</th>
+									<th>0</th>
+									<th>1</th>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="full noheader flex">
+					<div class="img">immagine porta XOR</div>
+					<table>
+						<tbody>
+							<tr>
+								<th>A\B</th>
+								<th>0</th>
+								<th>1</th>
+							</tr>
+							<tr>
+								<th>0</th>
+								<th>0</th>
+								<th>1</th>
+							</tr>
+							<tr>
+								<th>1</th>
+								<th>1</th>
+								<th>0</th>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="full noheader flex">
+					<div class="img">immagine porta Saviotti</div>
+					<table>
+						<tbody>
+							<tr>
+								<th>A\B</th>
+								<th>0</th>
+								<th>1</th>
+							</tr>
+							<tr>
+								<th>0</th>
+								<th>0</th>
+								<th>0</th>
+							</tr>
+							<tr>
+								<th>1</th>
+								<th>1</th>
+								<th>0</th>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="circuits" class="hidden">
+		<div id="presentation-register" class="presentation e" data-page="0" data-pagemax="2">
+			<div class="header">
+				<img src="compvter-logo.png">
+				<img src="ctrlalt-logo.png">
+				<div>
+					<div>
+						Istituto<br>G.Cardano<br>Pavia
+					</div>
+					<img src="cardano-logo.png">
+				</div>
+			</div>
+			<div class="footer">
+				<img src="qrcode.png">
+			</div>
+			<div class="full noheader">
+				<a href="#home" class="w">&gt</a>
+			</div>
+			<div class="page active center" data-page="0">
+				TITOLO
+			</div>
+			<div class="page inactive center" data-page="1">
+				<iframe src="https://circuitverse.org/simulator/embed/cpv?theme=default&display_title=false&clock_time=true&fullscreen=true&zoom_in_out=true" style="border-width:; border-style: none; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="700" width="1400" allowFullScreen></iframe>
+			</div>
+			<div class="page inactive center" data-page="2">
+				IMMAGINE
+			</div>
+		</div>
+		<div id="presentation-resettableregister" class="presentation ne" data-page="0" data-pagemax="2">
+			<div class="header">
+				<img src="compvter-logo.png">
+				<img src="ctrlalt-logo.png">
+				<div>
+					<div>
+						Istituto<br>G.Cardano<br>Pavia
+					</div>
+					<img src="cardano-logo.png">
+				</div>
+			</div>
+			<div class="footer">
+				<img src="qrcode.png">
+			</div>
+			<div class="full noheader">
+				<a href="#home" class="sw">&gt</a>
+			</div>
+			<div class="page active center" data-page="0">
+				TITOLO
+			</div>
+			<div class="page inactive center" data-page="1">
+				<iframe src="https://circuitverse.org/simulator/embed/cpv?theme=default&display_title=false&clock_time=true&fullscreen=true&zoom_in_out=true" style="border-width:; border-style: none; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="700" width="1400" allowFullScreen></iframe>
+			</div>
+			<div class="page inactive center" data-page="2">
+				IMMAGINE
+			</div>
+		</div>
+		<div id="presentation-multiplexer" class="presentation nw" data-page="0" data-pagemax="2">
+			<div class="header">
+				<img src="compvter-logo.png">
+				<img src="ctrlalt-logo.png">
+				<div>
+					<div>
+						Istituto<br>G.Cardano<br>Pavia
+					</div>
+					<img src="cardano-logo.png">
+				</div>
+			</div>
+			<div class="footer">
+				<img src="qrcode.png">
+			</div>
+			<div class="full noheader">
+				<a href="#home" class="se">&gt</a>
+			</div>
+			<div class="page active center" data-page="0">
+				TITOLO
+			</div>
+			<div class="page inactive center" data-page="1">
+				<iframe src="https://circuitverse.org/simulator/embed/cpv?theme=default&display_title=false&clock_time=true&fullscreen=true&zoom_in_out=true" style="border-width:; border-style: none; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="700" width="1400" allowFullScreen></iframe>
+			</div>
+			<div class="page inactive center" data-page="2">
+				IMMAGINE
+			</div>
+		</div>
+		<div id="presentation-comparator" class="presentation w" data-page="0" data-pagemax="2">
+			<div class="header">
+				<img src="compvter-logo.png">
+				<img src="ctrlalt-logo.png">
+				<div>
+					<div>
+						Istituto<br>G.Cardano<br>Pavia
+					</div>
+					<img src="cardano-logo.png">
+				</div>
+			</div>
+			<div class="footer">
+				<img src="qrcode.png">
+			</div>
+			<div class="page active center" data-page="0">
+				TITOLO
+			</div>
+			<div class="page inactive center" data-page="1">
+				<iframe src="https://circuitverse.org/simulator/embed/cpv?theme=default&display_title=false&clock_time=true&fullscreen=true&zoom_in_out=true" style="border-width:; border-style: none; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="700" width="1400" allowFullScreen></iframe>
+			</div>
+			<div class="page inactive center" data-page="2">
+				IMMAGINE
+			</div>
+			<div class="full noheader">
+				<a href="#home" class="e">&gt</a>
+			</div>
+		</div>
+		<div id="presentation-adder" class="presentation sw" data-page="0" data-pagemax="2">
+			<div class="header">
+				<img src="compvter-logo.png">
+				<img src="ctrlalt-logo.png">
+				<div>
+					<div>
+						Istituto<br>G.Cardano<br>Pavia
+					</div>
+					<img src="cardano-logo.png">
+				</div>
+			</div>
+			<div class="footer">
+				<img src="qrcode.png">
+			</div>
+			<div class="page active center" data-page="0">
+				TITOLO
+			</div>
+			<div class="page inactive center" data-page="1">
+				<iframe src="https://circuitverse.org/simulator/embed/cpv?theme=default&display_title=false&clock_time=true&fullscreen=true&zoom_in_out=true" style="border-width:; border-style: none; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="700" width="1400" allowFullScreen></iframe>
+			</div>
+			<div class="page inactive center" data-page="2">
+				IMMAGINE
+			</div>
+			<div class="full noheader">
+				<a href="#home" class="ne">&gt</a>
+			</div>
+		</div>
+		<div id="presentation-logic" class="presentation se" data-page="0" data-pagemax="2">
+			<div class="header">
+				<img src="compvter-logo.png">
+				<img src="ctrlalt-logo.png">
+				<div>
+					<div>
+						Istituto<br>G.Cardano<br>Pavia
+					</div>
+					<img src="cardano-logo.png">
+				</div>
+			</div>
+			<div class="footer">
+				<img src="qrcode.png">
+			</div>
+			<div class="page active center" data-page="0">
+				TITOLO
+			</div>
+			<div class="page inactive center" data-page="1">
+				<iframe src="https://circuitverse.org/simulator/embed/cpv?theme=default&display_title=false&clock_time=true&fullscreen=true&zoom_in_out=true" style="border-width:; border-style: none; border-color:;" name="myiframe" id="projectPreview" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="700" width="1400" allowFullScreen></iframe>
+			</div>
+			<div class="page inactive center" data-page="2">
+				IMMAGINE
+			</div>
+			<div class="full noheader">
+				<a href="#home" class="nw">&gt</a>
+			</div>
+		</div>
+	</div>
+	<script>
+		const links = document.getElementsByTagName("a");
+		const presentations = document.getElementsByClassName("presentation");
+		const scrolls = document.getElementsByClassName("scroll");
+		const home = document.getElementById("home");
+		const circuits = document.getElementById("circuits");
+		const gates = document.getElementById("gates");
+
+		for(link of links){
+			link.addEventListener(
+				"click",
+				(event) => {
+					event.stopPropagation();
+				}
+			);
+		}
+
+		for(presentation of presentations){
+			presentation.addEventListener(
+				"click",
+				(event) => {
+					const presentation = event.currentTarget;
+					let pageNum = presentation.dataset["page"];
+					let pageMax = presentation.dataset["pagemax"];
+
+					if(typeof(pageMax) == "undefined" || pageNum < pageMax){
+						for(const element of presentation.querySelectorAll(`[data-page="${pageNum}"]`)){
+							element.classList.remove("active");
+							setTimeout(
+								() => {
+									element.classList.add("inactive");
+								},
+								500
+							);
+						}
+						for(const element of presentation.querySelectorAll(`[data-pageend="${pageNum}"]`)){
+							element.classList.remove("active");
+							setTimeout(
+								() => {
+									element.classList.add("inactive");
+								},
+								500
+							);
+						}
+
+						pageNum++;
+						presentation.dataset["page"] = pageNum;
+						for(const element of presentation.querySelectorAll(`[data-page="${pageNum}"]`)){
+							element.classList.remove("inactive");
+							element.classList.add("active");
+						}
+						for(const element of presentation.querySelectorAll(`[data-pageend="${pageNum}"]`)){
+							element.classList.remove("inactive");
+							element.classList.add("active");
+						}
+					}
+				}
+			);
+		}
+
+		for(scroll of scrolls){
+			scroll.addEventListener(
+				"click",
+				(event) => {
+					const scroll = event.currentTarget;
+					console.log("OK");
+					let scrollNum = scroll.dataset["scroll"];
+					let scrollMax = scroll.dataset["scrollmax"];
+					const pixelWidth = window.innerWidth;
+					console.log(scrollNum);
+					console.log(scrollMax);
+					console.log(pixelWidth);
+
+					if(typeof(scrollMax) == "undefined" || scrollNum < scrollMax){
+						scrollNum++;
+						scroll.scroll(scrollNum * pixelWidth, 0);
+						scroll.dataset["scroll"] = scrollNum;
+					}else{
+						location = "#home";
+					}
+				}
+			);
+		}
+
+		home.addEventListener(
+			"click",
+			(event) => {
+				const home = event.currentTarget;
+				let pageNum = home.dataset["page"];
+
+				if(pageNum == 4){
+					circuits.classList.remove("hidden");
+					gates.classList.add("hidden");
+				}
+			}
+		);
+	</script>
+</body>
+</html>
