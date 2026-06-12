@@ -227,6 +227,7 @@
 			align-items: center;
 			align-content: center;
 			justify-content: space-evenly;
+			gap: 1rem;
 		}
 		.scroll{
 			overflow-x: scroll;
@@ -268,8 +269,18 @@
 		img.circuit{
 			width: 70vw;
 		}
+		table{
+			border-collapse: collapse;
+		}
 		th{
 			font-size: 2rem;
+			min-width: 3rem;
+		}
+		tr:first-child th{
+			border-bottom: 0.2rem solid #000;
+		}
+		th:first-child{
+			border-right: 0.2rem solid #000;
 		}
 	</style>
 </head>
@@ -299,7 +310,7 @@
 			</div>
 		</div>
 		<div id="gates-link" class="full noheader inactive" data-page="1">
-			<h1 style="text-align: center"><br>Ma come funzionano??</h1>
+			<h1 style="text-align: center"><br>Ma come funzionano le porte logiche??</h1>
 			<a href="#gates" class="s">&gt</a>
 		</div>
 		<div id="circuit-link" class="full noheader inactive" data-page="2">
